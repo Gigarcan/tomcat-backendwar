@@ -61,6 +61,12 @@
 			<groupId>com.sendgrid</groupId>
 			<artifactId>sendgrid-java</artifactId>
 		</dependency>
+			<!-- Spring Boot Starter Mail -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-mail</artifactId>
+			</dependency>
+
 	</dependencies>
 
 	<build>
