@@ -4,14 +4,16 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.payment.EmailService.EmailService;
+import com.payment.EmailService.SmtpMailService;
 import com.payment.entity.UsersTable;
 import com.payment.repo.RegistrationRepo;
 import com.payment.service.RegistrationService;
+
+import jakarta.mail.MessagingException;
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 	
@@ -19,6 +21,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 	private RegistrationRepo repo;
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private SmtpMailService smtpService;
 
 	@Override
 	public ResponseEntity<?> saveRegistration(UsersTable model) {
@@ -38,9 +42,15 @@ public class RegistrationServiceImpl implements RegistrationService{
 		if(data!=null) {
 			String otp=generateOTP();
 			data.setOtp(otp);
-			String name="shashi kumar";
+//			String name="shashi kumar";
 			//String email=emailService.sendEmailToVerifyOTP(data.getEmail(),otp, name);
-			String emailSent=emailService.sendEmailToVerifyOTP(data.getEmail(),otp, data.getFirstName()+" "+data.getLastName());
+//			String emailSent=emailService.sendEmailToVerifyOTP(data.getEmail(),otp, data.getFirstName()+" "+data.getLastName());
+			try {
+				smtpService.sendSimpleEmail(data.getEmail(),otp, data.getFirstName()+" "+data.getLastName());
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			repo.save(data);
 			return ResponseEntity.status(HttpStatus.OK).body("Please check your email to verify the OTP.");
 		}

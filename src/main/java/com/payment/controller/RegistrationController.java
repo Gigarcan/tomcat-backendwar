@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.payment.EmailService.EmailService;
+import com.payment.EmailService.SmtpMailService;
 import com.payment.entity.UsersTable;
 import com.payment.service.RegistrationService;
 
@@ -22,6 +23,8 @@ import com.payment.service.RegistrationService;
 public class RegistrationController {
 	@Autowired
 	private RegistrationService service;
+	@Autowired
+	private SmtpMailService smtpService;
 
 	@PostMapping("/signUp")
 	public ResponseEntity<?> saveRegistration(@RequestBody UsersTable newOne) {
