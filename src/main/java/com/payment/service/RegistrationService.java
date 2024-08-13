@@ -9,4 +9,6 @@ public interface RegistrationService {
 
 	public ResponseEntity<?> sendOTP(String phoneNmr);
 	public ResponseEntity<?> verifyOTP(String email, String otp);
+
+	ResponseEntity<?> sendOTPPayment(String email);
 }
