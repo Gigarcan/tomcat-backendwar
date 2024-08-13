@@ -11,4 +11,6 @@ public interface RegistrationService {
 	public ResponseEntity<?> verifyOTP(String email, String otp);
 
 	ResponseEntity<?> sendOTPPayment(String email);
+
+	ResponseEntity<?> verifyOTPPayment(String email, String otp);
 }

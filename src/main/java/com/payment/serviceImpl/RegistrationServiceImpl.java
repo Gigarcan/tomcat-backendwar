@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.payment.EmailService.EmailService;
 import com.payment.EmailService.SmtpMailService;
+import com.payment.entity.EmailOtpVerify;
 import com.payment.entity.UsersTable;
+import com.payment.repo.OtpRepo;
 import com.payment.repo.RegistrationRepo;
 import com.payment.service.RegistrationService;
 
@@ -19,12 +21,16 @@ import jakarta.mail.MessagingException;
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 	
+	
 	@Autowired
 	private RegistrationRepo repo;
 	@Autowired
 	private EmailService emailService;
 	@Autowired
 	private SmtpMailService smtpService;
+	
+	@Autowired
+	private OtpRepo otpRepo;
 
 	@Override
 	public ResponseEntity<?> saveRegistration(UsersTable model) {
@@ -95,13 +101,48 @@ public class RegistrationServiceImpl implements RegistrationService{
 	
 	@Override
 	public ResponseEntity<?> sendOTPPayment(String email) {
+		EmailOtpVerify data=otpRepo.findByEmail(email);
+		if(data!=null) {
 			String otp=generateOTP();
+			data.setOtp(otp);
 			try {
-				smtpService.sendSimpleEmailForPayment(email,otp);
+				smtpService.sendSimpleEmailForPayment(email, otp);
 			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return ResponseEntity.status(HttpStatus.OK).body("otp sent");
+			otpRepo.save(data);
+			return ResponseEntity.status(HttpStatus.OK).body("otp sent and saved successfully");
+		}else {
+			String otp=generateOTP();
+			EmailOtpVerify newone=new EmailOtpVerify();
+			newone.setEmail(email);
+			newone.setOtp(otp);
+			try {
+				smtpService.sendSimpleEmailForPayment(email, otp);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			otpRepo.save(newone);
+			return ResponseEntity.status(HttpStatus.OK).body("new record inserted");
 		}
+	}
+	
+	@Override
+	public ResponseEntity<?> verifyOTPPayment(String email, String otp) {
+		EmailOtpVerify data = otpRepo.findByEmail(email);
+	    
+	    if (data != null) {
+	        
+	        if (data.getOtp().equals(otp)) {
+	            return ResponseEntity.status(HttpStatus.OK).body("OTP verified successfully");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OTP does not match");
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("otp details not exist!");
+	    }
+	}
 
 }
