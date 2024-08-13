@@ -17,6 +17,48 @@ public class Order {
 	private String email;
 	private Integer amount;
 	private String course;
+	private String uniqueId;
+	private String emailOtp;
+	private String mobile;
+	private String mobileOtp;
+	private String gender;
+	private String pincode;
+	public String getUniqueId() {
+		return uniqueId;
+	}
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+	public String getEmailOtp() {
+		return emailOtp;
+	}
+	public void setEmailOtp(String emailOtp) {
+		this.emailOtp = emailOtp;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getMobileOtp() {
+		return mobileOtp;
+	}
+	public void setMobileOtp(String mobileOtp) {
+		this.mobileOtp = mobileOtp;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
 	public String getCourse() {
 		return course;
 	}
