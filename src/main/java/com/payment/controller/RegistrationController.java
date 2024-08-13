@@ -31,11 +31,6 @@ public class RegistrationController {
 		ResponseEntity<?> data= service.saveRegistration(newOne);
 		return data;
 	}
-//	@GetMapping("/sendOTP/{email}")
-//	public ResponseEntity<?> sendOTP(@PathVariable String email) {
-//		ResponseEntity<?> data= service.sendOTP(email);
-//		return data;
-//	}
 	@PostMapping("/verifyOTP/{email}/{otp}")
 	public ResponseEntity<?> verifyOTP(@PathVariable String email,@PathVariable String otp) {
 		ResponseEntity<?> data= service.verifyOTP(email,otp);
