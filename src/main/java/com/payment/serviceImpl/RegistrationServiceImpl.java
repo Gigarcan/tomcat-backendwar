@@ -91,5 +91,17 @@ public class RegistrationServiceImpl implements RegistrationService{
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User details not exist!");
 	    }
 	}
+	
+	
+	@Override
+	public ResponseEntity<?> sendOTPPayment(String email) {
+			String otp=generateOTP();
+			try {
+				smtpService.sendSimpleEmailForPayment(email,otp);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			return ResponseEntity.status(HttpStatus.OK).body("otp sent");
+		}
 
 }
