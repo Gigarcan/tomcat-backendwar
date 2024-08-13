@@ -1,5 +1,9 @@
 package com.payment.entity;
 
+
+
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +26,15 @@ public class UsersTable {
 	private String pincode;
 	private String phoneNumber;
 	private String otp;
+	private Date otpExpiration;
+	public Date getOtpExpiration() {
+		return otpExpiration;
+	}
+
+	public void setOtpExpiration(Date otpExpiration) {
+		this.otpExpiration = otpExpiration;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
