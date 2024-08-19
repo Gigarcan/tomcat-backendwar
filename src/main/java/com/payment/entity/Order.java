@@ -18,6 +18,13 @@ public class Order {
 	private Integer amount;
 	private String course;
 	private String uniqueId;
+	private String refId;
+	public String getRefId() {
+		return refId;
+	}
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
 	private String emailOtp;
 	private String mobile;
 	private String mobileOtp;
